@@ -47,7 +47,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/espace-tech/auth-sdk"
+    "url": "https://github.com/bz-reda/ETC-Auth-SDK"
   },
   "homepage": "https://cloud.espace-tech.com/docs",
   "engines": {
