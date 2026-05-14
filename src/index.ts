@@ -4,6 +4,9 @@ import type {
   AuthConfig,
   AuthEvent,
   AuthStateListener,
+  CancelEmailChangeResponse,
+  ChangeEmailParams,
+  ChangeEmailResponse,
   ChangePasswordParams,
   DeleteAccountParams,
   LoginParams,
@@ -21,6 +24,9 @@ export type {
   AuthConfig,
   AuthEvent,
   AuthStateListener,
+  CancelEmailChangeResponse,
+  ChangeEmailParams,
+  ChangeEmailResponse,
   ChangePasswordParams,
   DeleteAccountParams,
   LoginParams,
@@ -161,6 +167,34 @@ export class EspaceAuth {
     // All refresh tokens are revoked server-side, clear local session
     this.clearSession();
     return result;
+  }
+
+  /**
+   * Request an email change for the current user.
+   *
+   * The server emails a confirmation link to the new address. The change does
+   * NOT take effect until the user clicks that link — the user stays signed in
+   * with their existing email in the meantime. All refresh tokens are revoked
+   * server-side on confirm.
+   *
+   * @throws {AuthError} 400 — OAuth account (change email via provider), same
+   *   email as current, or generic failure (enumeration-masked)
+   * @throws {AuthError} 401 — Wrong password
+   * @throws {AuthError} 429 — Rate limited (3/hour per user+app)
+   */
+  async changeEmail(params: ChangeEmailParams): Promise<ChangeEmailResponse> {
+    await this.ensureToken();
+    return this.http.post<ChangeEmailResponse>("/email/change-request", params, true);
+  }
+
+  /**
+   * Cancel a pending email change request for the current user.
+   *
+   * @throws {AuthError} 401 — Not authenticated
+   */
+  async cancelEmailChange(): Promise<CancelEmailChangeResponse> {
+    await this.ensureToken();
+    return this.http.del<CancelEmailChangeResponse>("/email/change-request");
   }
 
   // ==================== OAuth ====================

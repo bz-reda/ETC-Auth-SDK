@@ -63,6 +63,20 @@ export interface ChangePasswordParams {
   new_password: string;
 }
 
+export interface ChangeEmailParams {
+  new_email: string;
+  current_password: string;
+}
+
+export interface ChangeEmailResponse {
+  message: string;
+  expires_at: string;
+}
+
+export interface CancelEmailChangeResponse {
+  message: string;
+}
+
 export interface DeleteAccountParams {
   password?: string;
 }
