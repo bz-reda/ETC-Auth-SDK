@@ -1,6 +1,6 @@
 {
   "name": "@espace-tech/auth",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Client-side auth SDK for apps built on Espace-Tech Cloud Auth",
   "author": "Espace-Tech <hello@espace-tech.com>",
   "license": "MIT",

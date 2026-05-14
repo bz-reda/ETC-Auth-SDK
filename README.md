@@ -141,6 +141,28 @@ await auth.changePassword({
 // All sessions revoked — user must log in again
 ```
 
+### changeEmail(params)
+
+Request an email change. The server emails a confirmation link to the new address; the change only takes effect when the user clicks that link. The user **stays signed in with their existing email** until confirmation — all refresh tokens are revoked server-side on confirm.
+
+```typescript
+const result = await auth.changeEmail({
+  new_email: "new@example.com",
+  current_password: "currentpass123",
+});
+// result.message, result.expires_at (ISO timestamp)
+```
+
+Rate-limited to 3 requests/hour per user+app. OAuth users (Google, GitHub) cannot change email via this endpoint — they must change it with their identity provider.
+
+### cancelEmailChange()
+
+Cancel a pending email change request.
+
+```typescript
+await auth.cancelEmailChange();
+```
+
 ### deleteAccount(params?)
 
 Permanently delete the current user's account.
